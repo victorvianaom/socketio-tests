@@ -1,0 +1,26 @@
+{
+  "name": "socketio-tests",
+  "version": "1.0.0",
+  "description": "A few tests with the Socket.io Js library",
+  "type": "module",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorvianaom/socketio-tests.git"
+  },
+  "author": "Victor Viana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victorvianaom/socketio-tests/issues"
+  },
+  "homepage": "https://github.com/victorvianaom/socketio-tests#readme"
+}
