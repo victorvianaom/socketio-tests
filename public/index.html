@@ -2,7 +2,58 @@
 <head>
     <meta charset="utf-8" />
     <title>Testes Socket.io</title>
+    <style>
+        body {         
+            background-color: #000040;   
+            font-family: Arial;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        } 
+        #div-pre-chat {
+            background-color: #d9d900;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 300px;
+            height: 200px;
+        }
+        #p-tell-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        #input-name {
+            width: 250px;
+            height: 30px;
+            border: none;
+        }
+        #btn-enter {
+            width: 100px;
+            height: 40px;
+            background-color: #00d036;
+            border: none;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
+<div id="div-pre-chat">
+    <p id="p-tell-name">So, tell me your name :-)</p>
+    <input type="text" id="input-name" placeholder=" Your Name..." name="name"/><br />
+    <button id="btn-enter">Chat Now</button>
+</div>
+
+<script type="module">
+    const socket = io()
+
+    function verifyName(){}
+
+
+
+    socket.on('connect', () => {
+        console.log(`Hello World. Your ID is: ${socket.id}`)
+    })
+</script>
 </body>
 </html>

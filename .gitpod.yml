@@ -1,0 +1,2 @@
+tasks:
+  - command: nvm install node && npm install socket.io && npm install express
