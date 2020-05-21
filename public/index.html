@@ -3,6 +3,7 @@
     <meta charset="utf-8" />
     <title>Testes Socket.io</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style-chat.css" />
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
@@ -32,41 +33,56 @@
         const divChat = document.createElement('div')
         const divWelcome = document.createElement('div')
         const divAllMessages = document.createElement('div')
+        const divBottomChat = document.createElement('div')
         const textareaMyMessage = document.createElement('textarea')
         const btnSendMessage = document.createElement('button')
 
         divChat.setAttribute('id', 'div-chat')
-        divChat.style.backgroundColor = "white"
-        divChat.style.width = '100%'
-        divChat.style.height = '90%'
         
         divWelcome.setAttribute('id', 'div-welcome')
         divWelcome.innerHTML = `Welcome, ${name}!`
         
         divAllMessages.setAttribute('id', 'div-all-messages')
-        divAllMessages.style.width = '95%'
-        divAllMessages.style.height = '85%'
-        divAllMessages.style.backgroundColor = '#BFEFFF'
-        divAllMessages.style.display = `flex`
-        divAllMessages.style.justifyContent = `center`
-        divAllMessages.style.alignItems = `center`
-        divAllMessages.style.flexDirection = `column`
+
+        divBottomChat.setAttribute('id', 'div-bottom-chat')
 
         textareaMyMessage.setAttribute('id', 'textarea-my-message')
-        textareaMyMessage.setAttribute('rows', '2')
-        textareaMyMessage.style.width = '100%'
+        textareaMyMessage.setAttribute('rows', '4')
 
         btnSendMessage.setAttribute('id', 'btn-send-message')
+        btnSendMessage.appendChild(document.createTextNode('Send'))
 
         divContent.appendChild(divChat)
         divChat.appendChild(divWelcome)
         divChat.appendChild(divAllMessages)
-        divChat.appendChild(textareaMyMessage)
-        divChat.appendChild(btnSendMessage)
+        divChat.appendChild(divBottomChat)
+        divBottomChat.appendChild(textareaMyMessage)
+        divBottomChat.appendChild(btnSendMessage)
+
+        textareaMyMessage.focus()
+        
+        textareaMyMessage.addEventListener('keyup', function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault()// didn't get it totally
+                document.getElementById('btn-send-message').click()
+                textareaMyMessage.value = ''
+                textareaMyMessage.focus()
+            }
+        })
+
+        return {
+            divChat,
+            divWelcome,
+            divAllMessages,
+            divBottomChat,
+            textareaMyMessage,
+            btnSendMessage
+        }
     }
 
     function verifyName() {
         const divError = document.getElementById("div-name-error-msg")
+        const textareaMyMessage = document.getElementById('textarea-my-message')
 
         if (inputName.value.length < 3 && inputName.value.length !== 0) {
             divError.innerHTML = `Your name can't be that short.`
@@ -88,9 +104,12 @@
 
 <script type="module">
     const socket = io()
+    const 
     
     socket.on('connect', () => {
         console.log(`Hello World. Your ID is: ${socket.id}`)
+
+        console.log(`TextArea: ${textareaMyMessage.value}`)
     })
 </script>
 </body>

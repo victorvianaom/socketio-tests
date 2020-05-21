@@ -33,7 +33,7 @@ body {
     height: 30px;
     border: 1px solid #000040;
 }
-#btn-enter-name, #btn-send-message {
+#btn-enter-name{
     width: 100px;
     height: 40px;
     background-color: #00d036;
