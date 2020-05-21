@@ -2,58 +2,67 @@
 <head>
     <meta charset="utf-8" />
     <title>Testes Socket.io</title>
-    <style>
-        body {         
-            background-color: #000040;   
-            font-family: Arial;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        } 
-        #div-pre-chat {
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            width: 300px;
-            height: 200px;
-        }
-        #p-tell-name {
-            font-weight: bold;
-            font-size: 16px;
-        }
-        #input-name {
-            width: 250px;
-            height: 30px;
-            border: 1px solid #000040;
-        }
-        #btn-enter {
-            width: 100px;
-            height: 40px;
-            background-color: #00d036;
-            border: none;
-        }
-        #div-name-error-msg {
-            background-color: #FF0000;
-            font-size: 12px;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 <div id="div-content">
     <div id="div-pre-chat">
         <p id="p-tell-name">So, tell me your name :-)</p>
-        <input type="text" onclick="removeErrorName()" id="input-name" placeholder=" Your Name..." name="name"/><br />
-        <button onclick="verifyName()" id="btn-enter">Chat Now</button>
+        <input type="text" onfocus="removeErrorName()" id="input-name" placeholder=" Your Name..." name="name"/><br />
+        <button onclick="verifyName()" id="btn-enter-name">Chat Now</button>
     </div>
     <div id="div-name-error-msg"></div>
 </div>
+
 <script>
+    const divContent = document.getElementById('div-content')
+    const inputName = document.getElementById('input-name')
+    inputName.focus()
+
+    inputName.addEventListener('keyup', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault()// didn't get it totally
+            document.getElementById('btn-enter-name').click()
+        }
+    })
+
+    function buildChat(name) {
+        divContent.innerHTML = ''
+        const divChat = document.createElement('div')
+        const divWelcome = document.createElement('div')
+        const divAllMessages = document.createElement('div')
+        const inputMyMessage = document.createElement('input')
+        const btnSendMessage = document.createElement('button')
+
+        divChat.style.backgroundColor = "white"
+        divWelcome.innerHTML = `Welcome, ${name}!`
+        
+        divAllMessages.style.width = 300
+        divAllMessages.style.height = 100%
+
+        divContent.appendChild(divChat)
+        divChat.appendChild(divWelcome)
+        divChat.appendChild(divAllMessages)
+        divChat.appendChild(inputMyMessage)
+
+        btnSendMessage.title = 'Send'
+        divChat.appendChild(btnSendMessage)
+    }
+
     function verifyName() {
-        console.log('im here inside verifyName')
+        const divError = document.getElementById("div-name-error-msg")
+
+        if (inputName.value.length < 3 && inputName.value.length !== 0) {
+            divError.innerHTML = `Your name can't be that short.`
+            return false
+        }
+        if (inputName.value.length === 0) {
+            divError.innerHTML = `Plese, put your name in the field above.`
+            return false
+        }
+
+        buildChat(inputName.value)
     }
 
     function removeErrorName() {

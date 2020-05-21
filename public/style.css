@@ -1,6 +1,14 @@
+html, body { height: 95%;}
 body {         
     background-color: #000040;   
     font-family: Arial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#div-content {
+    height: 90%;
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +31,7 @@ body {
     height: 30px;
     border: 1px solid #000040;
 }
-#btn-enter {
+#btn-enter-name, #btn-send-message {
     width: 100px;
     height: 40px;
     background-color: #00d036;
