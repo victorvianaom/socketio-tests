@@ -9,7 +9,7 @@
 <div id="div-content">
     <div id="div-pre-chat">
         <p id="p-tell-name">So, tell me your name :-)</p>
-        <input type="text" onfocus="removeErrorName()" id="input-name" placeholder=" Your Name..." name="name"/><br />
+        <input type="text" autocomplete="off" onfocus="removeErrorName()" id="input-name" placeholder=" Your Name..." name="name"/><br />
         <button onclick="verifyName()" id="btn-enter-name">Chat Now</button>
     </div>
     <div id="div-name-error-msg"></div>
@@ -32,21 +32,36 @@
         const divChat = document.createElement('div')
         const divWelcome = document.createElement('div')
         const divAllMessages = document.createElement('div')
-        const inputMyMessage = document.createElement('input')
+        const textareaMyMessage = document.createElement('textarea')
         const btnSendMessage = document.createElement('button')
 
+        divChat.setAttribute('id', 'div-chat')
         divChat.style.backgroundColor = "white"
+        divChat.style.width = '100%'
+        divChat.style.height = '90%'
+        
+        divWelcome.setAttribute('id', 'div-welcome')
         divWelcome.innerHTML = `Welcome, ${name}!`
         
-        divAllMessages.style.width = 300
-        divAllMessages.style.height = 100%
+        divAllMessages.setAttribute('id', 'div-all-messages')
+        divAllMessages.style.width = '95%'
+        divAllMessages.style.height = '85%'
+        divAllMessages.style.backgroundColor = '#BFEFFF'
+        divAllMessages.style.display = `flex`
+        divAllMessages.style.justifyContent = `center`
+        divAllMessages.style.alignItems = `center`
+        divAllMessages.style.flexDirection = `column`
+
+        textareaMyMessage.setAttribute('id', 'textarea-my-message')
+        textareaMyMessage.setAttribute('rows', '2')
+        textareaMyMessage.style.width = '100%'
+
+        btnSendMessage.setAttribute('id', 'btn-send-message')
 
         divContent.appendChild(divChat)
         divChat.appendChild(divWelcome)
         divChat.appendChild(divAllMessages)
-        divChat.appendChild(inputMyMessage)
-
-        btnSendMessage.title = 'Send'
+        divChat.appendChild(textareaMyMessage)
         divChat.appendChild(btnSendMessage)
     }
 
@@ -58,7 +73,7 @@
             return false
         }
         if (inputName.value.length === 0) {
-            divError.innerHTML = `Plese, put your name in the field above.`
+            divError.innerHTML = `Please, fill in your name.`
             return false
         }
 
