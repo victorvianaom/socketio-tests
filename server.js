@@ -12,12 +12,23 @@ const sockets = socketio(server) // 'sockets' tbm is um Event Emitter
 
 app.use(express.static('public')) // faz a pasta `public` ser o foco do servidor
 
-const messageBoard = {}
+const dataBase = {}
+var i=1
 
 sockets.on('connection', (socket) => {
     console.log(`> Connected to socket ID: ${socket.id}`)
-})
 
+    socket.emit('setup', dataBase)
+
+    socket.on('single-message', (socketData) => {
+        console.log(`> Data received: ${socketData}`)
+        dataBase[`data${i}`] = socketData
+        i++
+
+        socket.emit('all-messages', dataBase)
+    })
+ 
+})
 
 server.listen(port, () => {
     console.log(`> Serving on port ${port}`)
