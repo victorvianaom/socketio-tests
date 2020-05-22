@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="style-chat.css" />
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div id="div-content">
@@ -72,7 +73,11 @@
             }
         })
 
-        connectToServer()
+        socket.on('setup', (messages) => {
+            for (message of messages) {
+                renderMessage(message)
+            }
+        })
 
         return {
             divChat,
@@ -104,41 +109,23 @@
         divError.innerHTML = ""
     }
 
-    function connectToServer() {
-        const textareaMyMessage = document.getElementById('textarea-my-message') 
-        var divAllMessages = document.getElementById('div-all-messages')
-
-        socket.on('connect', () => {
-            console.log(`Hello World. Your ID is: ${socket.id}`)
-            console.log(`TextArea: ${textareaMyMessage.value}`)
-
-            socket.on('setup', (allMessages) => {
-            divAllMessages.innerHTML = ''
-            console.log(allMessages);
-            for (const data in allMessages) {
-                text = `${allMessages[data]['name']}: ${allMessages[data]['msg']}`
-                divAllMessages.appendChild(document.createTextNode(text))
-            }
-        })
-        })
-
-        socket.on('all-messages', (allMessages) => {
-            divAllMessages.innerHTML = ''
-            console.log(allMessages);
-            for (const data in allMessages) {
-                divAllMessages.appendChild(document.createTextNode(`${data.name}: ${data.msg}`))
-            }
-        })
+    function renderMessage(socketData) {
+        $('#div-all-messages').append('<div><strong>'+ socketData.name +'</strong>: '+ socketData.msg +'</div>')
     }
+
+    socket.on('broadcast-message', function(message) {
+        renderMessage(message)
+    })
 
     function sendMessage(msg) {
         name = inputName.value
         socketData = {
-            name,
-            msg
+            name: name,
+            msg: msg
         }
 
         socket.emit('single-message', socketData)
+        renderMessage(socketData)
         //connectToServer()
     }
 
